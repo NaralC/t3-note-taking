@@ -4,11 +4,9 @@ import CodeMirror from "@uiw/react-codemirror";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 
-export const NoteEditor = ({
-  onSave,
-}: {
+const NoteEditor: React.FC<{
   onSave: (note: { title: string; content: string }) => void;
-}) => {
+}> = ({ onSave }) => {
   const [code, setCode] = useState<string>("");
   const [title, setTitle] = useState<string>("");
 
@@ -58,3 +56,5 @@ export const NoteEditor = ({
     </Box>
   );
 };
+
+export default NoteEditor;

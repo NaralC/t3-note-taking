@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { NoteEditor } from "./note-editor";
-import { NoteCard } from "./note-card";
+import NoteEditor from "./note-editor";
+import NoteCard from "./note-card";
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
 

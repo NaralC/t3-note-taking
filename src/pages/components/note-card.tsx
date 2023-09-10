@@ -13,13 +13,10 @@ import { type RouterOutputs } from "@/utils/api";
 
 type Note = RouterOutputs["note"]["getAll"][0];
 
-export const NoteCard = ({
-  note,
-  onDelete,
-}: {
+const NoteCard: React.FC<{
   note: Note;
   onDelete: () => void;
-}) => {
+}> = ({ note, onDelete }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
 
   return (
@@ -39,12 +36,7 @@ export const NoteCard = ({
           <Text fontSize="xl" fontWeight="bold">
             {note.title}
           </Text>
-          <Button
-            colorScheme="yellow"
-            size="sm"
-            onClick={onDelete}
-            ml={2}
-          >
+          <Button colorScheme="yellow" size="sm" onClick={onDelete} ml={2}>
             Delete
           </Button>
         </Box>
@@ -60,3 +52,5 @@ export const NoteCard = ({
     </Container>
   );
 };
+
+export default NoteCard;
