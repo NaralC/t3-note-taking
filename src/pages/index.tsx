@@ -4,10 +4,9 @@ import { Flex, Text } from "@chakra-ui/react";
 
 import { api } from "@/utils/api";
 import Header from "./components/header";
+import Content from "./components/content";
 
 const Home: React.FC = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -17,9 +16,7 @@ const Home: React.FC = () => {
       </Head>
       <Header />
       <Flex flexDir={"column"} justify={"center"} align={"center"} h={"100vh"}>
-        <Text>
-          {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-        </Text>
+        <Content />
       </Flex>
     </>
   );
