@@ -9,7 +9,6 @@ const Header: React.FC = () => {
     <Flex
       justify={"space-between"}
       align={"center"}
-      position={"absolute"}
       w={"100vw"}
       p={"5"}
       as="section"

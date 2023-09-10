@@ -1,15 +1,18 @@
 import { api, type RouterOutputs } from "@/utils/api";
 import {
-  Box,
+  Text,
   Divider,
   Grid,
   GridItem,
   Input,
   ListItem,
   UnorderedList,
+  Box,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { NoteEditor } from "./note-editor";
+import { NoteCard } from "./note-card";
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
 
@@ -34,26 +37,26 @@ const Content: React.FC = () => {
     },
   });
 
-  //   const { data: notes, refetch: refetchNotes } = api.note.getAll.useQuery(
-  //     {
-  //       topicId: selectedTopic?.id ?? "",
-  //     },
-  //     {
-  //       enabled: sessionData?.user !== undefined && selectedTopic !== null,
-  //     }
-  //   );
+  const { data: notes, refetch: refetchNotes } = api.note.getAll.useQuery(
+    {
+      topicId: selectedTopic?.id ?? "",
+    },
+    {
+      enabled: sessionData?.user !== undefined && selectedTopic !== null,
+    }
+  );
 
-  //   const createNote = api.note.create.useMutation({
-  //     onSuccess: () => {
-  //       void refetchNotes();
-  //     },
-  //   });
+  const { mutate: createNote } = api.note.create.useMutation({
+    onSuccess: () => {
+      void refetchNotes();
+    },
+  });
 
-  //   const deleteNote = api.note.delete.useMutation({
-  //     onSuccess: () => {
-  //       void refetchNotes();
-  //     },
-  //   });
+  const { mutate: deleteNote } = api.note.delete.useMutation({
+    onSuccess: () => {
+      void refetchNotes();
+    },
+  });
 
   return (
     <Grid m={"5"} mb={"0"} templateColumns="repeat(4, 1fr)" gap={"2"}>
@@ -61,7 +64,14 @@ const Content: React.FC = () => {
         <UnorderedList>
           {topics?.map((topic) => (
             <ListItem
-              _hover={{ cursor: "pointer", fontSize: "lg" }}
+              bg={selectedTopic?.title === topic.title ? "gray" : ""}
+              pl={3}
+              _hover={{
+                cursor: "pointer",
+                fontSize: "lg",
+                transitionDuration: "0.2s",
+                transitionTimingFunction: "ease-in-out",
+              }}
               key={topic.id}
               onClick={(e) => {
                 e.preventDefault();
@@ -89,7 +99,32 @@ const Content: React.FC = () => {
           }}
         />
       </GridItem>
-      <GridItem colSpan={3}></GridItem>
+      <GridItem colSpan={3}>
+        <Box w={"full"} mb={"3"}>
+          {notes?.map((note) => (
+            <Box key={note.id} mt={"5"}>
+              <NoteCard
+                note={note}
+                onDelete={() =>
+                  void deleteNote({
+                    id: note.id,
+                  })
+                }
+              />
+            </Box>
+          ))}
+        </Box>
+
+        <NoteEditor
+          onSave={({ title, content }) => {
+            void createNote({
+              title,
+              content,
+              topicId: selectedTopic?.id ?? "",
+            });
+          }}
+        />
+      </GridItem>
     </Grid>
   );
 };
