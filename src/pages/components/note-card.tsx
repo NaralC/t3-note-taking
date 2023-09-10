@@ -41,7 +41,7 @@ export const NoteCard = ({
           </Text>
           <Button
             colorScheme="yellow"
-            size="xs"
+            size="sm"
             onClick={onDelete}
             ml={2}
           >
