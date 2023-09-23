@@ -31,6 +31,8 @@ const Content: React.FC = () => {
     }
   );
 
+  const { data } = api.note.test.useQuery()
+
   const { mutate: createTopic } = api.topic.create.useMutation({
     onSuccess: () => {
       void refetchTopics();

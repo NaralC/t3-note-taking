@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 
 export const noteRouter = createTRPCRouter({
   getAll: protectedProcedure
@@ -36,4 +36,11 @@ export const noteRouter = createTRPCRouter({
         },
       });
     }),
+
+    test: publicProcedure.query(({ ctx }) => {
+      if (ctx.session?.user) {
+        return "logged in"
+      }
+      return "not logged in"
+    })
 });
